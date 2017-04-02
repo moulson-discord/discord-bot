@@ -11,14 +11,18 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :song_url %>
-    <%= f.text_field :song_url %>
+  <div class="row">
+    <div class="col-xs-1">
+      <%= f.label :song_url  %>
+    </div>
+    <div class="col-xs-8">
+      <%= f.text_field :song_url, class: 'form-control', placeholder: 'Enter URL' %>
+    </div>
   </div>
 
   <div class="field">
     <%= f.label :platform %>
-    <%= select_tag :platform %>
+    <%= select_tag :platform, class: 'form-control' %>
   </div>
 
   <div class="actions">
