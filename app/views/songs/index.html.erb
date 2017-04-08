@@ -3,29 +3,20 @@
 
   <h1 class="page-header">Songs</h1>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Song url</th>
-        <th>Platform</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <% @songs.each do |song| %>
+          <div class="row">
+            <div class="col-xs-4"><%= song.song_url %></div>
+            <div class="col-xs-4"><%= song.platform %></div>
+            <div class="col-xs-4"><%= link_to 'Show', song, class: 'btn btn-primary' %>
+            <%= link_to 'Edit', edit_song_path(song), class: 'btn btn-primary' %>
+            <%= link_to 'Destroy', song, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <br/>
 
-    <tbody>
-      <% @songs.each do |song| %>
-        <tr>
-          <td><%= song.song_url %></td>
-          <td><%= song.platform %></td>
-          <td><%= link_to 'Show', song %></td>
-          <td><%= link_to 'Edit', edit_song_path(song) %></td>
-          <td><%= link_to 'Destroy', song, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <br>
-
-  <%= link_to 'New Song', new_song_path %>
+  <%= link_to 'New Song', new_song_path, class: 'btn btn-info' %>
 </div>

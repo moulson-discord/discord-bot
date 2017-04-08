@@ -23,6 +23,7 @@
   <div class="field">
     <%= f.label :platform %>
     <%= select_tag :platform, class: 'form-control' %>
+    <%= options_for_select(@platform) %>
   </div>
 
   <div class="actions">

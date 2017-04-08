@@ -15,6 +15,7 @@ class SongsController < ApplicationController
   # GET /songs/new
   def new
     @song = Song.new
+    @platform = Platform.all
   end
 
   # GET /songs/1/edit
