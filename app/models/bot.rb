@@ -14,8 +14,4 @@ class Bot < ApplicationRecord
 		end
 		bot.run
 	end
-
-	def self.stop
-		bot.stop
-	end
 end

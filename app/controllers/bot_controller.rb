@@ -1,8 +1,6 @@
 class BotController < ApplicationController
 	def start
-		Bot.start
-	end
-	def stop
-		Bot.stop
+		call_rake :start_bot
+		flash[:notice] = "Bot is running"
 	end
 end
