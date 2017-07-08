@@ -3,9 +3,6 @@ class Bot < ApplicationRecord
 	require 'configatron'
 	require_relative 'config.rb'
 
-		
-
-
 	def self.start
 		bot = Discordrb::Commands::CommandBot.new token: configatron.token, client_id: 217444617899999232, prefix: '!'
 
