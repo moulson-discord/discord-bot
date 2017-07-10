@@ -4,6 +4,10 @@ class Bot < ApplicationRecord
 	require 'json'
 	require 'net/http'
 	require_relative 'config.rb'
+	def self.youtube_dl(url)
+		options = {audio_format: 'mp3', output: 'some_song'}
+		YoutubeDL.download url, options
+	end
 
 	def self.start
 		bot = Discordrb::Commands::CommandBot.new token: configatron.token, client_id: 217444617899999232, prefix: '!'
@@ -44,8 +48,10 @@ class Bot < ApplicationRecord
 			my_uri = URI.parse("https://www.youtube.com/oembed?url=#{url}&format=json")
 			json = JSON.parse(Net::HTTP.get(my_uri))
 			song_name = json["title"]
-			song_params = {song_url: song_name, platform: "youtube"}
-			Song.create(song_params)
+			song_params = {song_url: url, platform: "youtube", title: song_name}
+			song = Song.create(song_params)
+			"song \"#{song_name}\" has been added to the library!"
+			youtube_dl(url)
 			#Check all current songs for the URL
 			#if it exists, add it to the queue
 			#otherwise, download first, create song object then add to the queue.
