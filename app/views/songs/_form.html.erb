@@ -10,13 +10,21 @@
       </ul>
     </div>
   <% end %>
+  <div class="row">
+    <div class="col-xs-1">
+      <%= f.label :title  %>
+    </div>
+    <div class="col-xs-8">
+      <%= f.text_field :title, class: 'form-control', placeholder: 'Song Title' %>
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-xs-1">
       <%= f.label :song_url  %>
     </div>
     <div class="col-xs-8">
-      <%= f.text_field :song_url, class: 'form-control', placeholder: 'Enter URL' %>
+      <%= f.text_field :song_url, class: 'form-control', placeholder: 'URL' %>
     </div>
   </div>
 
