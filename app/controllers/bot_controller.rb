@@ -5,6 +5,6 @@ class BotController < ApplicationController
 	end
 
 	def stop
-		
+
 	end
 end
