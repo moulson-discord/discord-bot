@@ -10,7 +10,7 @@ class Bot < ApplicationRecord
 		
 		video = YoutubeDL::Video.new(url)
 		video.options.configure do |c|
-		  c.output = "#{title}.mp3"
+		  c.output = "#{Rails.root}/app/assets/music/#{title.gsub(' ','_').gsub('.', '').downcase}.mp3"
 		  c.extract_audio = true
 		  c.audio_format = 'mp3'
 		end
@@ -59,7 +59,6 @@ class Bot < ApplicationRecord
 			song_name = json["title"]
 			song_params = {song_url: url, platform: "youtube", title: song_name}
 			song = Song.create(song_params)
-			"song \"#{song_name}\" has been added to the library!"
 			youtube_dl(url, song_name)
 			#Check all current songs for the URL
 			#if it exists, add it to the queue
@@ -67,7 +66,9 @@ class Bot < ApplicationRecord
 
 			#Create song object with url
 			voice_bot = event.voice
-			voice_bot.play_file("#{Rails.root}/app/assets/music/#{song_name.gsub(.,'')}.m4a")
+			"Now playing #{song_name} in #{event.user.voice_channel.name}"
+			voice_bot.play_file("#{Rails.root}/app/assets/music/#{song_name.gsub('.','').gsub(' ', '_').downcase}.mp3")
+
 		end
 		bot.run
 	end
