@@ -4,9 +4,18 @@ class Bot < ApplicationRecord
 	require 'json'
 	require 'net/http'
 	require_relative 'config.rb'
-	def self.youtube_dl(url)
-		options = {audio_format: 'mp3', output: 'some_song'}
-		YoutubeDL.download url, options
+	def self.youtube_dl(url, title)
+		#options = {output: "#{Rails.root}/app/assets/music/#{title}", extract_audio: true}
+		#YoutubeDL.download url, options
+		
+		video = YoutubeDL::Video.new(url)
+		video.options.configure do |c|
+		  c.output = "#{title}.mp3"
+		  c.extract_audio = true
+		  c.audio_format = 'mp3'
+		end
+
+		video.download
 	end
 
 	def self.start
@@ -51,14 +60,14 @@ class Bot < ApplicationRecord
 			song_params = {song_url: url, platform: "youtube", title: song_name}
 			song = Song.create(song_params)
 			"song \"#{song_name}\" has been added to the library!"
-			youtube_dl(url)
+			youtube_dl(url, song_name)
 			#Check all current songs for the URL
 			#if it exists, add it to the queue
 			#otherwise, download first, create song object then add to the queue.
 
 			#Create song object with url
-			#voice_bot = event.voice
-			#voice_bot.play_file("http://freesound.org/data/previews/397/397235_1648170-lq.mp3")
+			voice_bot = event.voice
+			voice_bot.play_file("#{Rails.root}/app/assets/music/#{song_name.gsub(.,'')}.m4a")
 		end
 		bot.run
 	end
