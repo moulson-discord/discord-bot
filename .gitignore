@@ -17,6 +17,6 @@
 app/models/config.rb
 !/log/.keep
 !/tmp/.keep
-
+app/assets/music/*
 # Ignore Byebug command history file.
 .byebug_history
