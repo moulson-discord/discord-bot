@@ -1,21 +1,30 @@
 
 <div class="row">
-
-	<p id="notice"><%= notice %></p>
-	<p>
-	  <strong>Song name:</strong>
-	  <%= @song.title %>
-	</p>
-	<p>
-	  <strong>Song url:</strong>
-	  <%= @song.song_url %>
-	</p>
-
-	<p>
-	  <strong>Platform:</strong>
-	  <%= @song.platform %>
-	</p>
-
-	<%= link_to 'Edit', edit_song_path(@song) %> |
-	<%= link_to 'Back', songs_path %>
+	<div class="well col-xs-8 col-xs-offset-2">
+		<div class="row">
+			<div class="col-xs-12">
+			<h1 class="page-header"><%= @song.title %> </h1>
+			</div>
+			<div class="col-xs-4">
+			<%= image_tag 'placeholder_thumb', class: 'img-responsive' %>
+			</div>
+			<div class="col-xs-8">
+				<div class="row">
+					<div class="col-xs-12">
+						<p><strong>File path:</strong> <%= @song.song_file_file_name %></p>
+					</div>
+					<div class="col-xs-12">
+						<p><strong>URL:</strong> <%= @song.song_url %></p>
+					</div>
+					<div class="col-xs-12">
+						<p><strong>Platform:</strong> <%= @song.platform %></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-8 col-xs-offset-2 btn-group">
+		<%= link_to 'Edit', edit_song_path(@song), class: 'btn btn-warning' %>
+		<%= link_to 'Back', songs_path, class: 'btn btn-danger' %>
+	</div>
 </div>
