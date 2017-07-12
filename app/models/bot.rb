@@ -35,6 +35,7 @@ class Bot < ApplicationRecord
 			exit
 		end
 		bot.command(:summon) do |event|
+			break unless event.user.id == 137281612818677761 #Only I can do this
 			# The `voice_channel` method returns the voice channel the user is currently in, or `nil` if the user is not in a
 			# voice channel.
 			channel = event.user.voice_channel
