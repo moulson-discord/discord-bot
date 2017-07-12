@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20170710161350) do
     t.string   "thumb_content_type"
     t.integer  "thumb_file_size"
     t.datetime "thumb_updated_at"
+    t.text     "thumb64"
   end
 
 end

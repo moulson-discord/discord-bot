@@ -3,6 +3,8 @@ class Bot < ApplicationRecord
 	require 'configatron'
 	require 'json'
 	require 'net/http'
+	require 'open-uri'
+	require 'base64'
 	require_relative 'config.rb'
 	def self.youtube_dl(url, title)
 		#options = {output: "#{Rails.root}/app/assets/music/#{title}", extract_audio: true}
@@ -55,18 +57,21 @@ class Bot < ApplicationRecord
 
 		# A simple command that plays back an mp3 file.
 		bot.command(:play) do |event, url|
+
+			finish_message = "Done!"
 			my_uri = URI.parse("https://www.youtube.com/oembed?url=#{url}&format=json")
 			json = JSON.parse(Net::HTTP.get(my_uri))
 			song_name = json["title"]
+
+			#deal with the thumbnail
+			thumb64 = Base64.encode64(open(json["thumbnail_url"], "rb").read)
+
 			youtube_dl(url, song_name)
-			song_params = {song_url: url, platform: "youtube", title: song_name, song_file_file_name: "#{Rails.root}/app/assets/music/#{song_name.gsub('.','').gsub(' ', '_').downcase}.mp3"}
+			song_params = {song_url: url, platform: "youtube", title: song_name, song_file_file_name: "#{Rails.root}/app/assets/music/#{song_name.gsub('.','').gsub(' ', '_').downcase}.mp3", thumb64: thumb64}
 			song = Song.create(song_params)
+
+			bot.send_message(event.channel.id, finish_message)
 			
-			#Check all current songs for the URL
-			#if it exists, add it to the queue
-			#otherwise, download first, create song object then add to the queue.
-			"Song successfully added to the database!"
-			#Create song object with url
 			#voice_bot = event.voice
 			#{}"Now playing #{song_name} in #{event.user.voice_channel.name}"
 			#voice_bot.play_file("#{Rails.root}/app/assets/music/#{song_name.gsub('.','').gsub(' ', '_').downcase}.mp3")
