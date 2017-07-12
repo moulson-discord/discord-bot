@@ -57,17 +57,18 @@ class Bot < ApplicationRecord
 			my_uri = URI.parse("https://www.youtube.com/oembed?url=#{url}&format=json")
 			json = JSON.parse(Net::HTTP.get(my_uri))
 			song_name = json["title"]
-			song_params = {song_url: url, platform: "youtube", title: song_name}
-			song = Song.create(song_params)
 			youtube_dl(url, song_name)
+			song_params = {song_url: url, platform: "youtube", title: song_name, song_file: "#{Rails.root}/app/assets/music/#{song_name.gsub('.','').gsub(' ', '_').downcase}.mp3"}
+			song = Song.create(song_params)
+			
 			#Check all current songs for the URL
 			#if it exists, add it to the queue
 			#otherwise, download first, create song object then add to the queue.
-
+			"Song successfully added to the database!"
 			#Create song object with url
-			voice_bot = event.voice
-			"Now playing #{song_name} in #{event.user.voice_channel.name}"
-			voice_bot.play_file("#{Rails.root}/app/assets/music/#{song_name.gsub('.','').gsub(' ', '_').downcase}.mp3")
+			#voice_bot = event.voice
+			#{}"Now playing #{song_name} in #{event.user.voice_channel.name}"
+			#voice_bot.play_file("#{Rails.root}/app/assets/music/#{song_name.gsub('.','').gsub(' ', '_').downcase}.mp3")
 
 		end
 		bot.run

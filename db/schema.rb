@@ -33,9 +33,17 @@ ActiveRecord::Schema.define(version: 20170710161350) do
   create_table "songs", force: :cascade do |t|
     t.string   "song_url"
     t.string   "platform"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.string   "title"
+    t.string   "song_file_file_name"
+    t.string   "song_file_content_type"
+    t.integer  "song_file_file_size"
+    t.datetime "song_file_updated_at"
+    t.string   "thumb_file_name"
+    t.string   "thumb_content_type"
+    t.integer  "thumb_file_size"
+    t.datetime "thumb_updated_at"
   end
 
 end
