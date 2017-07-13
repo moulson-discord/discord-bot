@@ -16,12 +16,15 @@ class Bot < ApplicationRecord
 		  c.extract_audio = true
 		  c.audio_format = 'mp3'
 		end
-
 		video.download
 	end
 
 	def self.start
 		bot = Discordrb::Commands::CommandBot.new token: configatron.token, client_id: 217444617899999232, prefix: '!'
+		queue = LinkedList::Stack.new
+		bot.playing do |event|
+			bot.send_message(event.channel.id, "playing")
+		end
 		bot.command :🤣 do |event|
 			event.respond '🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣'
 		end
@@ -52,7 +55,6 @@ class Bot < ApplicationRecord
 
 		bot.command(:play) do |event, url|
 
-			
 			my_uri = URI.parse("https://www.youtube.com/oembed?url=#{url}&format=json")
 			json = JSON.parse(Net::HTTP.get(my_uri))
 			song_name = json["title"]
@@ -68,10 +70,16 @@ class Bot < ApplicationRecord
 				finish_message = "downloading and playing #{song_name}"
 				song_file = song.song_file_file_name
 			end
-
+			queue << "#{Rails.root}/app/assets/music/#{song_name.gsub('.','').gsub(' ', '_').downcase}.mp3"
 			bot.send_message(event.channel.id, finish_message)
 			voice_bot = event.voice
-			voice_bot.play_file(song_file)
+			#PUT the song to the bottom of the stack
+			#Play the song at the top of the stack and POP it from the stack
+
+			unless voice_bot.playing?
+				bot.game = song_name
+				voice_bot.play_file(open(queue.pop))
+			end
 		end
 		bot.run
 	end
